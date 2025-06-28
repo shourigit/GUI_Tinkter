@@ -1,0 +1,67 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+def convert_inches_to_cm():
+    """
+    Converts the value entered in inches to centimeters and displays the result.
+    Handles non-numeric input errors.
+    """
+    try:
+        inches = float(inches_entry.get())
+        cm = inches * 2.54
+        result_label.config(text=f"{inches} inches = {cm:.2f} cm")
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter a valid number for inches.")
+        result_label.config(text="Please enter a number.")
+
+def clear_fields():
+    """
+    Clears the input field and the result display.
+    """
+    inches_entry.delete(0, tk.END)
+    result_label.config(text="")
+    messagebox.showinfo("Cleared", "Fields have been cleared.")
+
+# --- Main Application Window Setup ---
+root = tk.Tk()
+root.title("Inch to CM Converter")
+root.geometry("350x200") # Set a fixed window size for simplicity
+root.resizable(False, False) # Prevent resizing for a simple layout
+
+# Configure styles for ttk widgets
+style = ttk.Style()
+style.configure("TFrame", background="#f0f0f0")
+style.configure("TLabel", background="#f0f0f0", font=("Inter", 10))
+style.configure("TEntry", font=("Inter", 10))
+style.configure("TButton", font=("Inter", 10, "bold"), padding=6)
+
+
+# --- Input Frame ---
+input_frame = ttk.Frame(root, padding="20")
+input_frame.pack(pady=10, padx=20)
+
+# Inches Input
+inches_label = ttk.Label(input_frame, text="Inches:")
+inches_label.grid(row=0, column=0, sticky="w", padx=5, pady=5)
+inches_entry = ttk.Entry(input_frame, width=20)
+inches_entry.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
+inches_entry.focus_set() # Set focus to the input field on startup
+
+
+# --- Buttons Frame ---
+button_frame = ttk.Frame(root, padding="5")
+button_frame.pack(pady=5, padx=20)
+
+convert_button = ttk.Button(button_frame, text="Convert to CM", command=convert_inches_to_cm)
+convert_button.grid(row=0, column=0, padx=5, pady=5)
+
+clear_button = ttk.Button(button_frame, text="Clear", command=clear_fields)
+clear_button.grid(row=0, column=1, padx=5, pady=5)
+
+
+# --- Result Display ---
+result_label = ttk.Label(root, text="", font=("Inter", 12, "bold"), foreground="blue")
+result_label.pack(pady=10)
+
+# Start the Tkinter event loop
+root.mainloop()
